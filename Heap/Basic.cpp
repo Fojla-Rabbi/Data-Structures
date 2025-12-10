@@ -41,7 +41,7 @@ void delete_root() {
     int n = heap.size();
     heap[0] = heap[n - 1];
     heap.pop_back();
-    heapify(0, n -1);
+    heapify(0, n - 1);
 
 }
 
