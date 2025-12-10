@@ -48,6 +48,7 @@ void delete_root() {
 // }
 
 void heap_sort() {
+    build_heap();
     int n = heap.size();
     for(int i = n - 1; i >= 0; i--) {
         swap(heap[0], heap[i]);
@@ -66,7 +67,6 @@ int main() {
 
     //for(int i = 0; i < n; i++) cin >> heap[i];
     heap = {10, 20, 15, 50, 30, 40};
-    build_heap();
     print_heap();
     heap_sort();
     print_heap();
