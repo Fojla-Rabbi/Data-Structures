@@ -5,6 +5,8 @@ using namespace std;
 vector<int> heap;
 
 // Percolate down
+// Heapify is only possible when both the left and right sub-tree are
+// perfectly maintaining the "heap property"
 void heapify(int i, int n) {
     int largest = i;
     int left = 2 * i + 1;
