@@ -25,9 +25,8 @@ public:
             if(cur->next[idx] == NULL) {
                 Node* newnode = new Node();
                 cur->next[idx] = newnode;
-                cur = cur->next[idx];
             }
-            else cur = cur->next[idx];
+            cur = cur->next[idx];
         }
         cur->flag = true;
     }
