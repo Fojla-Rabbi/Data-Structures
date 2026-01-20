@@ -4,7 +4,7 @@ using namespace std;
 
 class Node {
 public:
-    Node *next[26];
+    Node* next[26];
     bool flag;
     int prefix_cnt;
     Node() {
@@ -18,14 +18,14 @@ public:
 
 class Trie {
 public:
-    Node *root = new Node();
+    Node* root = new Node();
 
     void insert(string word) {
-        Node *cur = root;
+        Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] == NULL) {
-                Node *newnode = new Node();
+                Node* newnode = new Node();
                 cur->next[idx] = newnode;
 
                 cur = cur->next[idx];
@@ -37,7 +37,7 @@ public:
     }
     
     int count_prefix(string prefix) {
-        Node *cur = root;
+        Node* cur = root;
         for(auto ch: prefix) {
             int idx = ch - 'a';
             if(cur->next[idx] != NULL) {
