@@ -4,7 +4,7 @@ using namespace std;
 
 class Node {
 public:
-    Node *next[26];
+    Node* next[26];
     bool flag;
     Node() {
         for(int i = 0; i < 26; i++) {
@@ -16,14 +16,14 @@ public:
 
 class Trie {
 public:
-    Node *root = new Node();
+    Node* root = new Node();
 
     void insert(string word) {
-        Node *cur = root;
+        Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] == NULL) {
-                Node *newnode = new Node();
+                Node* newnode = new Node();
                 cur->next[idx] = newnode;
                 cur = cur->next[idx];
             }
@@ -61,8 +61,8 @@ int main() {
     t.insert("yoyo");
     t.insert("kuet");
     t.insert("kuep");
-    //cout << t.search("harvard") << '\n';
-   // cout << t.search("hard") << '\n';
+    // cout << t.search("harvard") << '\n';
+    // cout << t.search("hard") << '\n';
     string word = "";
     t.dfs(t.root, word);
 
