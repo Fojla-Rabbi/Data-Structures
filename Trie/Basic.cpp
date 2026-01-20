@@ -47,7 +47,8 @@ public:
             else return false;
             // v has next reference but d doesn't ("hard");
         }
-        return cur->flag; // For prefix search, just use "return true;"
+        return cur->flag; 
+        // For prefix search, just use "return true;"
     }
 };
 
@@ -64,4 +65,3 @@ int main() {
 
     return 0;
 }
-
