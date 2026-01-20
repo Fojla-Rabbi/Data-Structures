@@ -27,10 +27,9 @@ public:
             if(cur->next[idx] == NULL) {
                 Node* newnode = new Node();
                 cur->next[idx] = newnode;
-
-                cur = cur->next[idx];
             }
-            else cur = cur->next[idx];
+
+            cur = cur->next[idx];
             cur->prefix_cnt++;
         }
         cur->flag = true;
@@ -40,10 +39,9 @@ public:
         Node* cur = root;
         for(auto ch: prefix) {
             int idx = ch - 'a';
-            if(cur->next[idx] != NULL) {
-                cur = cur->next[idx];
-            }
-            else return 0;
+            if(cur->next[idx] == NULL) return 0;
+
+            cur = cur->next[idx];
         }
         return cur->prefix_cnt;
     }
