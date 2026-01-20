@@ -19,8 +19,8 @@ public:
 class Trie {
 public:
     Node* root = new Node();
-    // O(L)  [here L is the length of the word]
-    void insert(string word) {
+
+    void insert(string word) {  // O(L)  [here L is the length of the word]
         Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
@@ -29,25 +29,20 @@ public:
                 cur->next[idx] = newnode;
                 // NULL chara onno kauke point kortese mane 
                 // oikhane index er equvalent ch ache
-                cur = cur->next[idx];
             }
-            else cur = cur->next[idx];
+            cur = cur->next[idx];
         }
         cur->flag = true;
     }
 
-    // O(L)
-    bool search(string word) {
+    bool search(string word) { // O(L)
         Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
-            if(cur->next[idx] != NULL) {
-                cur = cur->next[idx];
-            }
-            else return false;
-            // v has next reference but d doesn't ("hard");
+            if(cur->next[idx] == NULL) return false;
+            cur = cur->next[idx];
         }
-        return cur->flag; 
+        return cur->flag;
         // For prefix search, just use "return true;"
     }
 };
