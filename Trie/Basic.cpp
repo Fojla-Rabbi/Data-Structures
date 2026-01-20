@@ -4,7 +4,7 @@ using namespace std;
 
 class Node {
 public:
-    Node *next[26];
+    Node* next[26];
     // 1 Node contains 26 Node type pointers(next) that
     // can point to a new Node
     bool flag;
@@ -18,14 +18,14 @@ public:
 
 class Trie {
 public:
-    Node *root = new Node();
+    Node* root = new Node();
     // O(L)  [here L is the length of the word]
     void insert(string word) {
-        Node *cur = root;
+        Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] == NULL) {
-                Node *newnode = new Node();
+                Node* newnode = new Node();
                 cur->next[idx] = newnode;
                 // NULL chara onno kauke point kortese mane 
                 // oikhane index er equvalent ch ache
@@ -38,7 +38,7 @@ public:
 
     // O(L)
     bool search(string word) {
-        Node *cur = root;
+        Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] != NULL) {
