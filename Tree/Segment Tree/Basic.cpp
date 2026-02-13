@@ -5,50 +5,65 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long
-const int N = 1e5;
-int arr[N], seg[4*N];
-void build(int ind, int low, int high) {
-    if(low == high) {
-        seg[ind] = arr[low];
-        return;
-    }
-    int mid  = (low + high) / 2;
-    build(2*ind + 1, low, mid);
-    build(2*ind + 2, mid + 1, high);
-    seg[ind] = max(seg[2*ind + 1], seg[2*ind + 2]); // Backtracking
-}
-void update_val(int ind, int low, int high, int node, int val) {
-    if(low == high) {
-        seg[ind] += val; // Say you are told to increase the value by val;
-        arr[low] += val; // Just formality
-        return;
-    }
-    int mid  = (low + high) / 2;
-    if(node <= mid && node >= low) update_val(2*ind + 1, low, mid, node, val);
-    else update_val(2*ind + 2, mid + 1, high, node, val);
 
-    seg[ind] = max(seg[2*ind + 1], seg[2*ind + 2]); // Backtracking
-}
-int query(int ind, int low, int high, int l, int r) {
-    if(low >= l && high <= r) {
-        return seg[ind];
+const int N = 2e5 + 5;
+ll a[N];
+ll seg[4 * N];
+
+// low and high e sheraaaa
+void build(int idx, int low, int high) {
+    if(low == high) {
+        seg[idx] = a[low];
+        return;
     }
-    if(low > r || high < l) return INT_MIN;
+
     int mid = (low + high) / 2;
-    int left = query(2*ind + 1, low, mid, l, r);
-    int right = query(2*ind + 2, mid + 1, high, l, r);
-    return max(left, right);
+    build(2 * idx, low, mid);
+    build(2 * idx + 1, mid + 1, high);
 
+    seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
+}
+
+int query(int idx, int low, int high, int l, int r) {
+    if(low >= l && high <= r) return seg[idx];
+    else if(high < l || low > r) return 0;
+    
+    int mid = (low + high) / 2;
+    ll left_child = query(2 * idx, low, mid, l, r);
+    ll right_child = query(2 * idx + 1, mid + 1, high, l, r);
+
+    return left_child + right_child;
+}
+
+void update(int idx, int low, int high, int i, int val) {
+    if(low == high) {
+        seg[idx] = val;
+        return;
+    }
+
+    int mid = (low + high) / 2;
+    if(mid >= i) update(2 * idx, low, mid, i, val);
+    else  update(2 * idx + 1, mid + 1, high, i, val);
+
+    seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    for(int i = 1; i <= n; i++) cin >> a[i];
+
+    build(1, 1, n);
+    for(int i = 1; i < 4 * n; i++) cout << seg[i] << " ";
+
+    update(1, 1, n, 1, 100);
+    for(int i = 1; i < 4 * n; i++) cout << seg[i] << " ";
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n;
-    cin >> n;
-    for(int i = 0; i < n; i++) {
-
-    }
+    
+    solve();
     return 0;
-
 }
