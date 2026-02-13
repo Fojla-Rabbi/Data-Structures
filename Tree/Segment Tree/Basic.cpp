@@ -35,15 +35,15 @@ int query(int idx, int low, int high, int l, int r) {
     return left_child + right_child;
 }
 
-void update(int idx, int low, int high, int i, int val) {
+void update(int idx, int low, int high, int pos, int val) {
     if(low == high) {
         seg[idx] = val;
         return;
     }
 
     int mid = (low + high) / 2;
-    if(i <= mid) update(2 * idx, low, mid, i, val);
-    else  update(2 * idx + 1, mid + 1, high, i, val);
+    if(pos <= mid) update(2 * idx, low, mid, pos, val);
+    else  update(2 * idx + 1, mid + 1, high, pos, val);
 
     seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
 }
