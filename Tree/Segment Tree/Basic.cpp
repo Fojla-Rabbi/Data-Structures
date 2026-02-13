@@ -42,7 +42,7 @@ void update(int idx, int low, int high, int i, int val) {
     }
 
     int mid = (low + high) / 2;
-    if(mid >= i) update(2 * idx, low, mid, i, val);
+    if(i <= mid) update(2 * idx, low, mid, i, val);
     else  update(2 * idx + 1, mid + 1, high, i, val);
 
     seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
