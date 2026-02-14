@@ -10,40 +10,44 @@ const int N = 2e5 + 5;
 ll a[N];
 ll seg[4 * N];
 
-// low and high e sheraaaa
-void build(int idx, int low, int high) {
-    if(low == high) {
-        seg[idx] = a[low];
+// Here each node is represented an index "idx" and containing
+// a range sum of segment "l to r"
+// Actually which range sum it's containing depends on the parent's range
+// That's why it doesn't need to store extra variables l and r
+
+void build(int idx, int l, int r) {
+    if(l == r) {
+        seg[idx] = a[l];
         return;
     }
 
-    int mid = (low + high) / 2;
-    build(2 * idx, low, mid);
-    build(2 * idx + 1, mid + 1, high);
+    int mid = (l + r) / 2;
+    build(2 * idx, l, mid);
+    build(2 * idx + 1, mid + 1, r);
 
     seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
 }
 
-int query(int idx, int low, int high, int l, int r) {
-    if(low >= l && high <= r) return seg[idx];
-    else if(high < l || low > r) return 0;
+int query(int idx, int l, int r, int ql, int qr) {
+    if(l >= ql && r <= qr) return seg[idx];
+    else if(r < ql || l > qr) return 0;
     
-    int mid = (low + high) / 2;
-    ll left_child = query(2 * idx, low, mid, l, r);
-    ll right_child = query(2 * idx + 1, mid + 1, high, l, r);
+    int mid = (l + r) / 2;
+    ll left_child = query(2 * idx, l, mid, ql, qr);
+    ll right_child = query(2 * idx + 1, mid + 1, r, ql, qr);
 
     return left_child + right_child;
 }
 
-void update(int idx, int low, int high, int pos, int val) {
-    if(low == high) {
+void update(int idx, int l, int r, int pos, int val) {
+    if(l == r) {
         seg[idx] = val;
         return;
     }
 
-    int mid = (low + high) / 2;
-    if(pos <= mid) update(2 * idx, low, mid, pos, val);
-    else  update(2 * idx + 1, mid + 1, high, pos, val);
+    int mid = (l + r) / 2;
+    if(pos <= mid) update(2 * idx, l, mid, pos, val);
+    else  update(2 * idx + 1, mid + 1, r, pos, val);
 
     seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
 }
