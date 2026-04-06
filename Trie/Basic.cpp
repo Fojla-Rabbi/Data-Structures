@@ -2,17 +2,16 @@
 using namespace std;
 #define ll long long
 
-class Node {
-public:
+struct Node {
     Node* next[26];
     // 1 Node contains 26 Node type pointers(next) that
     // can point to a new Node
-    bool flag;
+    bool is_end;
     Node() {
+        is_end = false;
         for(int i = 0; i < 26; i++) {
             next[i] = NULL;
         }
-        flag = false;
     }
 };
 
@@ -25,14 +24,13 @@ public:
         for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] == NULL) {
-                Node* newnode = new Node();
-                cur->next[idx] = newnode;
+                cur->next[idx] = new Node();
                 // NULL chara onno kauke point kortese mane 
                 // oikhane index er equvalent ch ache
             }
             cur = cur->next[idx];
         }
-        cur->flag = true;
+        cur->is_end = true;
     }
 
     bool search(string word) { // O(L)
@@ -42,7 +40,7 @@ public:
             if(cur->next[idx] == NULL) return false;
             cur = cur->next[idx];
         }
-        return cur->flag;
+        return cur->is_end;
         // For prefix search, just use "return true;"
     }
 };
