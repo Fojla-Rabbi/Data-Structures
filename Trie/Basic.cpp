@@ -17,7 +17,11 @@ struct Node {
 
 class Trie {
 public:
-    Node* root = new Node();
+    Node* root;
+
+    Trie() {
+        root = new Node();
+    }
 
     void insert(string word) {  // O(L)  [here L is the length of the word]
         Node* cur = root;
