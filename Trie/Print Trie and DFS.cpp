@@ -2,52 +2,67 @@
 using namespace std;
 #define ll long long
 
-class Node {
-public:
+struct Node {
     Node* next[26];
-    bool flag;
+    bool is_end;
+
     Node() {
         for(int i = 0; i < 26; i++) {
             next[i] = NULL;
         }
-        flag = false;
+        is_end = false;
     }
 };
 
 class Trie {
 public:
-    Node* root = new Node();
+    Node* root;
 
-    void insert(string word) {
+    Trie() {
+        root = new Node();
+    }
+
+    void insert(string word) {  // O(L)  [here L is the length of the word]
         Node* cur = root;
         for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] == NULL) {
-                Node* newnode = new Node();
-                cur->next[idx] = newnode;
+                cur->next[idx] = new Node();
             }
             cur = cur->next[idx];
         }
-        cur->flag = true;
+        cur->is_end = true;
     }
 
-    // For print purpose
-    // O(T)  [here T = total number of characters stored in the trie]
-    void dfs(Node* cur, string &word) {
-        if(cur->flag) {
-            cout << word << '\n';
-            // return; 
-            // you cannot do that!!, think for "kuet", "kuetp" 
-            // The Node that contains p has flag = true for t
+    bool search(string word) { // O(L)
+        Node* cur = root;
+        for(auto ch: word) {
+            int idx = ch - 'a';
+            if(cur->next[idx] == NULL) return false;
+            cur = cur->next[idx];
+        }
+        return cur->is_end;
+    }
+    
+    // DFS to print all words
+    void dfs(Node* cur, string &path) {
+        if(cur->is_end) {
+            cout << path << '\n';
         }
 
         for(int i = 0; i < 26; i++) {
             if(cur->next[i] != NULL) {
-                word.push_back(i + 'a');
-                dfs(cur->next[i], word);
-                word.pop_back();
+                char ch = 'a' + i;
+                path.push_back(ch);
+                dfs(cur->next[i], path);
+                path.pop_back(); // backtrack
             }
         }
+    }
+
+    void print_trie() {
+        string path = "";
+        dfs(root, path);
     }
 };
 
@@ -56,14 +71,10 @@ int main() {
     cin.tie(NULL);
     
     Trie t;
-    t.insert("harvard");
+    t.insert("yo");
     t.insert("yoyo");
     t.insert("kuet");
-    t.insert("kuep");
-    // cout << t.search("harvard") << '\n';
-    // cout << t.search("hard") << '\n';
-    string word = "";
-    t.dfs(t.root, word);
+    t.print_trie();
 
     return 0;
 }
