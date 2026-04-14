@@ -8,10 +8,11 @@ struct Node {
     // can point to a new Node
     bool is_end;
     Node() {
-        is_end = false;
         for(int i = 0; i < 26; i++) {
             next[i] = NULL;
         }
+        
+        is_end = false;
     }
 };
 
