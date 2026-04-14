@@ -2,49 +2,47 @@
 using namespace std;
 #define ll long long
 
-class Node {
-public:
+struct Node {
     Node* next[26];
-    bool flag;
-public:
+    bool is_end;
+
     Node() {
         for(int i = 0; i < 26; i++) {
             next[i] = NULL;
         }
-        flag = false;
+        is_end = false;
     }
 };
 
 class Trie {
 public:
-    Node* root = new Node();
+    Node* root;
+
+    Trie() {
+        root = new Node();
+    }
 
     void insert(string word) {
         Node* cur = root;
-        for(auto ch : word) {
+        for(auto ch: word) {
             int idx = ch - 'a';
             if(cur->next[idx] == NULL) {
-                Node* newnode = new Node();
-                cur->next[idx] = newnode;
+                cur->next[idx] = new Node();
             }
             cur = cur->next[idx];
         }
-        cur->flag = true;
+        cur->is_end = true;
     }
 
-    void dfs(Node* cur, string &word) {
-        if(cur->flag) {
-            cout << word << '\n';
+    bool search(string word) {
+        Node* cur = root;
+        for(auto ch: word) {
+            int idx = ch - 'a';
+            if(cur->next[idx] == NULL) return false;
+            cur = cur->next[idx];
         }
-
-        for(int i = 0; i < 26; i++) {
-            if(cur->next[i] != NULL) {
-                word.push_back(i + 'a');
-                dfs(cur->next[i], word);
-                word.pop_back();
-            }
-        }
-    }
+        return cur->is_end;
+    }   
 
     bool is_empty(Node* node) {
         for(int i = 0; i < 26; i++) {
@@ -55,9 +53,9 @@ public:
 
     Node* erase_util(Node* cur, string word, int depth) {
         // if(cur = NULL) return NULL; (for invalid case)
-
+        // Base case (end of a word)
         if(depth == word.size()) {
-            if(cur->flag) cur->flag = false;
+            if(cur->is_end) cur->is_end = false;
 
             if(is_empty(cur)) {
                 delete cur;
@@ -69,14 +67,15 @@ public:
         int idx = word[depth] - 'a';
         cur->next[idx] = erase_util(cur->next[idx], word, depth + 1);
 
-        if(is_empty(cur) && cur->flag == false) {
+        if(is_empty(cur) && cur->is_end == false) {
             delete cur;
             cur = NULL;
         }
         return cur;
     }
+
     void del(string word) {
-        root = erase_util(root, word, 0);
+        root = erase_util(root, word, 0); 
     }
 };
 
@@ -85,17 +84,9 @@ int main() {
     cin.tie(NULL);
     
     Trie t;
-    t.insert("harvard");
-    t.insert("hard");
-    t.insert("kuetx");
-    t.insert("kuety");
-    t.insert("kuatz");
-    string s = "";
-    t.dfs(t.root, s);
-    t.del("hard");
-    string p = "";
-    t.dfs(t.root, p);
-
+    t.insert("yo");
+    t.insert("yoyo");
+    t.insert("yoyoyo");
 
     return 0;
 }
