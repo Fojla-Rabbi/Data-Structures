@@ -4,14 +4,14 @@ using namespace std;
 
 struct Node {
     Node* next[26];
-    int cnt_prefix;
+    int cnt;
     bool is_end;
 
     Node() {
         for(int i = 0; i < 26; i++) {
             next[i] = NULL;
         }
-        cnt_prefix = 0;
+        cnt = 0;
         is_end = false;
     }
 };
@@ -32,7 +32,7 @@ public:
                 cur->next[idx] = new Node();
             }
             cur = cur->next[idx];
-            cur->cnt_prefix++;
+            cur->cnt++;
         }
         cur->is_end = true;
     }
@@ -53,7 +53,7 @@ public:
             int idx = ch - 'a';
             cur = cur->next[idx];
         }
-        return cur->cnt_prefix;
+        return cur->cnt;
     }
 };
 
