@@ -51,10 +51,10 @@ public:
         return true;
     }
 
-    Node* erase_util(Node* cur, string word, int depth) {
+    Node* erase_util(Node* cur, string word, int wo_idx) {
         // if(cur = NULL) return NULL; (for invalid case)
         // Base case (end of a word)
-        if(depth == word.size()) {
+        if(wo_idx == word.size()) {
             if(cur->is_end) cur->is_end = false;
 
             if(is_empty(cur)) {
@@ -64,8 +64,8 @@ public:
             return cur;
         }
 
-        int idx = word[depth] - 'a';
-        cur->next[idx] = erase_util(cur->next[idx], word, depth + 1);
+        int idx = word[wo_idx] - 'a';
+        cur->next[idx] = erase_util(cur->next[idx], word, wo_idx + 1);
 
         if(is_empty(cur) && cur->is_end == false) {
             delete cur;
