@@ -11,7 +11,6 @@ struct Node {
         for(int i = 0; i < 26; i++) {
             next[i] = NULL;
         }
-        
         is_end = false;
     }
 };
